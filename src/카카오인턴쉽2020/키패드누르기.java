@@ -29,6 +29,20 @@ public class 키패드누르기 {
 		
 		//매개변수를 문자로 변환
 		String toWord = Integer.toString(number);
+		
+		//1,4,7, 3,6,9를 누르는 경우
+		if(toWord.equals("1")||toWord.equals("4")||toWord.equals("7")) {
+			finger = "L";
+			leftHand = toWord;
+			return finger;
+		} else if(toWord.equals("3")||toWord.equals("6")||toWord.equals("9")) {
+			finger = "R";
+			rightHand = toWord;
+			return finger;
+		}
+		
+		
+		//위의 숫자를 제외한 나머지 숫자를 누르는 경우
 		//왼손이 가까운 경우
 		if(distance(keyPad.get(rightHand), keyPad.get(toWord)) > distance(keyPad.get(leftHand), keyPad.get(toWord))) {
 			finger = "L";
@@ -61,6 +75,10 @@ public class 키패드누르기 {
 	
 	public String solution(int[] numbers, String hand) {
         String answer = "";
+        for(int i=0; i<numbers.length; i++) {
+        	String temp = whichHand(numbers[i], hand);
+        	answer+=temp;
+        }
         return answer;
     }
 	
@@ -70,6 +88,8 @@ public class 키패드누르기 {
 		키패드누르기 a = new 키패드누르기();
 		System.out.println(a.distance(one, two));
 		System.out.println(a.whichHand(0,"right"));
+		int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+		System.out.println(a.solution(numbers, "right"));
 
 	}
 }
