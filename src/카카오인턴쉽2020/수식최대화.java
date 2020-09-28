@@ -148,12 +148,7 @@ public class 수식최대화 {
 
 	public static void main(String[] args) {
 		수식최대화 b = new 수식최대화();
-		String a = "8+8*8-9+8";
 		//System.out.println(b.combination(a));
-		ArrayList<String> c = new ArrayList<String>();
-		c.add("*");
-		c.add("+");
-		c.add("-");
 		//System.out.println(b.calculator("50*3*2", "*"));
 		//System.out.println(b.calculator("100-200*300-500+20", c));
 		System.out.println(b.solution("100-200*300-500+20"));
