@@ -40,16 +40,16 @@ public class 보석쇼핑2 {
 			//System.out.println(s+" "+e);
 			//System.out.println(gemSet2);
 			
-			if(compare(gemSet,gemSet2)&&answer.length==0) {
+			if(gemSet.size()==gemSet2.size()&&answer.length==0) {
 				answer = new int[2];
 				answer[0] = s+1;
 				answer[1] =  e;
-			}else if(compare(gemSet,gemSet2)&&(e-s)==answer[1]-answer[0]+1&&answer[0]>s+1) {
+			}else if(gemSet.size()==gemSet2.size()&&(e-s)==answer[1]-answer[0]+1&&answer[0]>s+1) {
 				answer[0] = s+1;
 				answer[1] =  e;
 
 			} 
-			else if(compare(gemSet,gemSet2)&&(e-s)<answer[1]-answer[0]+1) {
+			else if(gemSet.size()==gemSet2.size()&&(e-s)<answer[1]-answer[0]+1) {
 				answer[0] = s+1;
 				answer[1] =  e;
 			}
@@ -58,24 +58,22 @@ public class 보석쇼핑2 {
 				System.out.println("answer: "+answer[i]);
 			}*/
 			//원하는 배열보다 길 경우 (보석은 모두 가지고 있다)
-			if(compare(gemSet,gemSet2)&&(e-s)>=answer[1]-answer[0]+1) {
+			if(gemSet.size()==gemSet2.size()&&(e-s)>=answer[1]-answer[0]+1) {
 				s++;
 				continue;
 			} 
 			//e가 끝 점에 도달했을 경우
-			else if(e==copy.size()&&compare(gemSet,gemSet2)==false) {
+			else if(e==copy.size()&&gemSet.size()!=gemSet2.size()) {
 				break;
 			} else {
 				e++;
 			}
-			
-			
-			
+
 		}
 
 		return answer;
 	}
-	
+	/*
 	//set의 값이 같은지 비교하는 메소드
 	public boolean compare(Set<String> one,Set<String> two) {
 		for(String str : one) {
@@ -86,7 +84,7 @@ public class 보석쇼핑2 {
 			}
 		}
 		return true;
-	}
+	}*/
 	
 
 	public static void main(String[] args) {
