@@ -35,13 +35,17 @@ public class 경주로건설 {
         	int[] curr = queue.remove();
         	//마지막에 도착한 경우
         	if(curr.equals(endPoint)) {
-        		//이전 answer 값과 비교해서 answer 값 갱신
+        		//이전 answer 값과 비교해서 answer 값 갱신 but 쓸모없는 기능 같다
         		int temp = cost(parentMap, startPoint, endPoint);
         		if(temp<answer) {
         			answer = temp;
         		}
         		
         	}
+        	//처음에는 null뜰것
+			if(parentMap.containsKey(curr)) {
+				previous = parentMap.get(curr);
+			}
         	ArrayList<int[]> neighbors = getNeighbor(index, curr);
         	//neighbors의 원소(next가 될 것들)를 previous와의 관계를 보고 직선 관계가 아니면 swap한다
         	//버블 정렬
@@ -60,10 +64,7 @@ public class 경주로건설 {
         			visited.add(next);
         			parentMap.put(next, curr);
         			queue.offer(next);
-        			//처음에는 null뜰것
-        			if(parentMap.containsKey(curr)) {
-        				previous = parentMap.get(curr);
-        			}
+        			
         			
         		}
         	}
