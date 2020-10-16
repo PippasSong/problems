@@ -1,5 +1,8 @@
 package 프로그래머스코드챌린지1;
 import java.util.*;
+import java.util.stream.IntStream;
+
+
 
 public class 프로그래밍3 {
 	//3개를 뽑는 조합 저장
@@ -44,12 +47,87 @@ public class 프로그래밍3 {
 			visited[i] = false;
 		}
 	}
+	
+	//BFS로 두 점 사이의 거리 구하기
+	public int bfs(int start, int end, int[][] edges, int n) {
+		//노드들의 집합
+		ArrayList<MapNode> nodes = new ArrayList<MapNode>();
+		for(int i = 1; i<n+1; i++) {
+			nodes.add(new MapNode(i));
+		}
+		int answer = Integer.MAX_VALUE;
+		//시작점
+		MapNode startPoint = new MapNode(start);
+		//거리 초기화
+		startPoint.distance = 0;
+		Queue<MapNode> queue = new LinkedList<>();
+		//중복 피하기 위한 배열
+		ArrayList<MapNode> visited = new ArrayList<MapNode>();
+		
+		//시작점을 queue에 넣는다
+        queue.offer(startPoint);
+        visited.add(startPoint);
+        
+        while(!queue.isEmpty()) {
+        	MapNode curr = queue.remove();
+	        
+	        //목표 지점에 도착했을 경우
+	        if(curr.name==end) {
+	        	answer = curr.distance;
+	        	break;
+	        			
+	        }
+	        
+	        //curr과 인점한 노드들 구하기
+	        ArrayList<MapNode> neighbors = new ArrayList<>();
+	        for(int i = 0; i < edges.length; i++) {
+	        	int[] element = edges[i];
+	        	//배열에서 포함 여부
+	        	if(IntStream.of(element).anyMatch(x->x==curr.name)) {
+	        		for(int j = 0; j<element.length; j++) {
+	        			if(element[j]!=curr.name) {
+	        				for(MapNode m : nodes) {
+	        					if(m.name==element[j]) {
+	        						neighbors.add(m);
+	        					}
+	        				}
+	        			}
+	        		}
+	        	}
+	        }
+	        
+	        for(MapNode next : neighbors) {
+	        	if(!visited.contains(next)) {
+	        		visited.add(next);
+	        		queue.offer(next);
+	        		next.distance = curr.distance+1;
+	        	}
+	        	
+	        	
+	        }
+	        
+        
+        }
+		
+		return answer;
+	}
 
 	public static void main(String[] args) {
 		프로그래밍3 a = new 프로그래밍3();
-		int[][] edges = {{1,2},{2,3},{3,4}};
-		a.solution(4, edges);
+		//int[][] edges = {{1,2},{2,3},{3,4}};
+		int[][] edges = {{1,5},{2,5},{3,5},{4,5}};
+		//a.solution(4, edges);
+		System.out.println(a.bfs(3,5,edges, 5));
 
 	}
 
+}
+
+class MapNode {
+	int name = 0;
+	int distance = Integer.MAX_VALUE;
+	MapNode(int name){
+		this.name = name;
+		
+	}
 }
