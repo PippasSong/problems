@@ -10,7 +10,7 @@ public class 프로그래밍3 {
 	
 	
 	public int solution(int n, int[][] edges) {
-        int answer = 0;
+        int answer = -1;
         int[] arr = new int[n];
         for(int i = 0; i<n; i++) {
         	arr[i] = i+1;
@@ -19,8 +19,16 @@ public class 프로그래밍3 {
        
         combination(arr, visited, 0, n, 3);
         
-        System.out.println(comb);
         
+        //System.out.println(comb);
+        //f함수로 최대 중간값 구하기
+        for(ArrayList<Integer> temp : comb) {
+        	//System.out.println(fFunction(temp, edges, n));
+        	if(fFunction(temp, edges, n) > answer) {
+        		
+        		answer = fFunction(temp, edges, n);
+        	}
+        }
         
         
         
@@ -49,6 +57,7 @@ public class 프로그래밍3 {
 	}
 	
 	//BFS로 두 점 사이의 거리 구하기
+	//n은 노드의 수
 	public int bfs(int start, int end, int[][] edges, int n) {
 		//노드들의 집합
 		ArrayList<MapNode> nodes = new ArrayList<MapNode>();
@@ -111,15 +120,32 @@ public class 프로그래밍3 {
 		
 		return answer;
 	}
+	
+		//중간값 구하는 f함수
+		//n은 노드의 수
+		public int fFunction(ArrayList<Integer> list, int[][] edges, int n) {
+			int answer = -1;
+			ArrayList<Integer> temp = new ArrayList<>();
+			temp.add(bfs(list.get(0), list.get(1), edges, n));
+			temp.add(bfs(list.get(0), list.get(2), edges, n));
+			temp.add(bfs(list.get(1), list.get(2), edges, n));
+			
+			Collections.sort(temp);
+			//System.out.println(temp);
+			answer = temp.get(1);
+			return answer;
+		}
 
 	public static void main(String[] args) {
 		프로그래밍3 a = new 프로그래밍3();
-		//int[][] edges = {{1,2},{2,3},{3,4}};
-		int[][] edges = {{1,5},{2,5},{3,5},{4,5}};
-		//a.solution(4, edges);
-		System.out.println(a.bfs(3,5,edges, 5));
+		int[][] edges = {{1,2},{2,3},{3,4}};
+		//int[][] edges = {{1,5},{2,5},{3,5},{4,5}};
+		System.out.println(a.solution(4, edges));
+		//System.out.println(a.bfs(3,3,edges, 5));
 
 	}
+	
+	
 
 }
 
