@@ -4,7 +4,7 @@ import java.util.stream.IntStream;
 
 
 
-public class 프로그래밍3 {
+public class 프로그래밍3_2 {
 	//3개를 뽑는 조합 저장
 	ArrayList<ArrayList<Integer>> comb = new ArrayList<ArrayList<Integer>>();
 	
@@ -21,14 +21,7 @@ public class 프로그래밍3 {
         
         
         //System.out.println(comb);
-        //f함수로 최대 중간값 구하기
-        for(ArrayList<Integer> temp : comb) {
-        	//System.out.println(fFunction(temp, edges, n));
-        	if(fFunction(temp, edges, n) > answer) {
-        		
-        		answer = fFunction(temp, edges, n);
-        	}
-        }
+
         
         
         
@@ -57,17 +50,24 @@ public class 프로그래밍3 {
 	}
 	
 	//트리의 지름 구하기 , 최대 지름이 2개이 이상 이면 그 값이 중간값 아니면 최대 지름-1이 중간값 
-	//BFS로 두 점 사이의 거리 구하기
+	//BFS로 시작점에서 가장 먼 거리 구하기
 	//n은 노드의 수
-	public int bfs(int start, int end, int[][] edges, int n) {
+	public int bfs(int start, int[][] edges, int n) {
 		//노드들의 집합
 		ArrayList<MapNode> nodes = new ArrayList<MapNode>();
 		for(int i = 1; i<n+1; i++) {
 			nodes.add(new MapNode(i));
 		}
-		int answer = Integer.MAX_VALUE;
-		//시작점
+		int answer = 0;
 		MapNode startPoint = new MapNode(start);
+		
+		//시작점
+		for(MapNode m : nodes) {
+			if(m.name==start) {
+				 startPoint = m;
+			}
+		}
+		
 		//거리 초기화
 		startPoint.distance = 0;
 		Queue<MapNode> queue = new LinkedList<>();
@@ -80,13 +80,9 @@ public class 프로그래밍3 {
         
         while(!queue.isEmpty()) {
         	MapNode curr = queue.remove();
-	        
-	        //목표 지점에 도착했을 경우
-	        if(curr.name==end) {
-	        	answer = curr.distance;
-	        	break;
-	        			
-	        }
+        	if(curr.distance>answer) {
+        		answer = curr.distance;
+        	}
 	        
 	        //curr과 인점한 노드들 구하기
 	        ArrayList<MapNode> neighbors = new ArrayList<>();
@@ -122,27 +118,14 @@ public class 프로그래밍3 {
 		return answer;
 	}
 	
-		//중간값 구하는 f함수
-		//n은 노드의 수
-		public int fFunction(ArrayList<Integer> list, int[][] edges, int n) {
-			int answer = -1;
-			ArrayList<Integer> temp = new ArrayList<>();
-			temp.add(bfs(list.get(0), list.get(1), edges, n));
-			temp.add(bfs(list.get(0), list.get(2), edges, n));
-			temp.add(bfs(list.get(1), list.get(2), edges, n));
-			
-			Collections.sort(temp);
-			//System.out.println(temp);
-			answer = temp.get(1);
-			return answer;
-		}
+		
 
 	public static void main(String[] args) {
-		프로그래밍3 a = new 프로그래밍3();
+		프로그래밍3_2 a = new 프로그래밍3_2();
 		int[][] edges = {{1,2},{2,3},{3,4}};
 		//int[][] edges = {{1,5},{2,5},{3,5},{4,5}};
-		System.out.println(a.solution(4, edges));
-		//System.out.println(a.bfs(3,3,edges, 5));
+		//System.out.println(a.solution(4, edges));
+		System.out.println(a.bfs(2, edges, 4));
 
 	}
 	
@@ -150,11 +133,4 @@ public class 프로그래밍3 {
 
 }
 
-class MapNode {
-	int name = 0;
-	int distance = Integer.MAX_VALUE;
-	MapNode(int name){
-		this.name = name;
-		
-	}
-}
+
